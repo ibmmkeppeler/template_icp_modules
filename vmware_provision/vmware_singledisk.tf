@@ -64,6 +64,40 @@ resource "vsphere_virtual_machine" "vm" {
   }
 
   provisioner "file" {
+    destination = "change_ens160.sh"
+
+    content = <<EOF
+# =================================================================
+# Licensed Materials - Property of IBM
+# 5737-E67
+# @ Copyright IBM Corporation 2016, 2017 All Rights Reserved
+# US Government Users Restricted Rights - Use, duplication or disclosure
+# restricted by GSA ADP Schedule Contract with IBM Corp.
+# =================================================================
+#!/bin/bash
+
+#adding routes for sandbox2 quick and dirty
+echo "up route add -net 10.0.0.0 netmask 255.0.0.0 gw 10.135.29.1" >> /etc/network/interfaces
+echo "up route add -net  0.0.0.0 netmask 0.0.0.0   gw 10.135.29.9" >> /etc/network/interfaces
+
+sudo ifdown ens160
+sudo ifup ens160
+
+
+EOF
+  }
+
+  # Execute the script remotely
+  provisioner "remote-exec" {
+    inline = [
+      "set -e",
+      "bash -c 'chmod +x change_ens160.sh'",
+      "bash -c 'nohub ./change_ens160.sh  >> change_ens160.log 2>&1'",
+    ]
+  }
+
+
+  provisioner "file" {
     destination = "VM_add_ssh_key.sh"
 
     content = <<EOF
