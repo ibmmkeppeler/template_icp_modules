@@ -80,8 +80,8 @@ resource "vsphere_virtual_machine" "vm" {
 echo "up route add -net 10.0.0.0 netmask 255.0.0.0 gw 10.135.29.1" >> /etc/network/interfaces
 echo "up route add -net  0.0.0.0 netmask 0.0.0.0   gw 10.135.29.9" >> /etc/network/interfaces
 
-sudo ifdown ens160
-sudo ifup ens160
+# sudo ifdown ens160
+# sudo ifup ens160
 
 
 EOF
