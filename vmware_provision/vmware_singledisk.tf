@@ -92,7 +92,7 @@ EOF
     inline = [
       "set -e",
       "bash -c 'chmod +x change_ens160.sh'",
-      "bash -c 'nohub ./change_ens160.sh  >> change_ens160.log 2>&1'",
+      "bash -c 'nohup ./change_ens160.sh  >> change_ens160.log 2>&1'",
     ]
   }
 
